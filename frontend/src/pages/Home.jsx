@@ -4,7 +4,7 @@ import Spinner from '../components/Spinner';
 import { Link } from 'react-router-dom';
 import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
-import axios from 'axios';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
