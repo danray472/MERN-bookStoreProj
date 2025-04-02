@@ -1,12 +1,15 @@
-//import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
+const API_URL = import.meta.env.VITE_API_URL; // ✅ Use VITE_API_URL
+
 const DeleteBook = () => {
-  const [loading, setLoading] = (false);
+  const [loading, setLoading] = useState(false); // ✅ Fixed the useState initialization
   const navigate = useNavigate();
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
@@ -14,25 +17,24 @@ const DeleteBook = () => {
   const handleDeleteBook = () => {
     setLoading(true);
     axios
-      .delete(`http://REACT_APP_API_URL/books/${id}`)
+      .delete(`${API_URL}/books/${id}`) // ✅ Updated to use VITE_API_URL
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Book Deleted successfully', { variant: 'success' });
+        enqueueSnackbar('Book deleted successfully', { variant: 'success' });
         navigate('/');
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
-        enqueueSnackbar('Error', { variant: 'error' });
-        console.log(error);
+        enqueueSnackbar('Error deleting book', { variant: 'error' });
+        console.error('Error deleting book:', error);
       });
   };
-  
+
   return (
     <div className='p-4'>
       <BackButton />
       <h1 className='text-3xl my-4'>Delete Book</h1>
-      {loading ? <Spinner /> : ''}
+      {loading && <Spinner />}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
         <h3 className='text-2xl'>Are You Sure You want to delete this book?</h3>
 
@@ -44,7 +46,7 @@ const DeleteBook = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default DeleteBook;

@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+
+const API_URL = import.meta.env.VITE_API_URL; // ✅ Use VITE_API_URL
 
 const CreateBooks = () => {
   const [title, setTitle] = useState('');
@@ -17,15 +20,15 @@ const CreateBooks = () => {
     const data = { title, author, publishYear };
     setLoading(true);
     axios
-      .post('http://REACT_APP_API_URL/books', data)
+      .post(`${API_URL}/books`, data) // ✅ Use VITE_API_URL here
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Book Created successfully', { variant: 'success' });
+        enqueueSnackbar('Book created successfully', { variant: 'success' });
         navigate('/');
       })
       .catch((error) => {
         setLoading(false);
-        enqueueSnackbar('Error', { variant: 'error' });
+        enqueueSnackbar('Error creating book', { variant: 'error' });
         console.log(error);
       });
   };

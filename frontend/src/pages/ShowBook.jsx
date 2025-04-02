@@ -5,24 +5,26 @@ import { useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 
+const API_URL = import.meta.env.VITE_API_URL; // ✅ Use VITE_API_URL
+
 const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
-    setLoading(true); 
+    setLoading(true);
     axios
-      .get(`http://REACT_APP_API_URL/books/${id}`)
+      .get(`${API_URL}/books/${id}`) // ✅ Updated API call
       .then((response) => {
         setBook(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error fetching book:', error);
         setLoading(false);
       });
-  }, []);
+  }, [id]); // ✅ Include 'id' in dependency array
 
   return (
     <div className='p-4'>

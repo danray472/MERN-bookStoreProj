@@ -4,6 +4,8 @@ import Spinner from '../components/Spinner';
 import { Link } from 'react-router-dom';
 import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
+import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -13,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get('http://REACT_APP_API_URL/books')
+      .get(`${API_URL}/books`) // ✅ Correct usage
       .then((response) => {
         setBooks(response.data.data);
         setLoading(false);
@@ -22,7 +24,7 @@ const Home = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+}, []);
 
   return (
     <div className='p-4'>
